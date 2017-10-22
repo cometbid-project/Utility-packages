@@ -153,15 +153,33 @@ public class RegionEO extends DomainObject implements Serializable {
         this.countryList = countryList;
     }
 
-    public void addCountryToList(CountryEO country) {
+    public boolean addCountryToList(CountryEO country) {
         if (this.countryList == null) {
             this.countryList = new ArrayList<>();
         }
-        this.countryList.add(country);
+        if (!countryList.contains(country)) {
+            RegionEO oldRegion = country.getRegion();
+            if (oldRegion != null) {
+                removeCountryFromList(country);
+            }
+            this.countryList.add(country);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeCountryFromList(CountryEO country) {
-        this.countryList.remove(country);
+    public boolean removeCountryFromList(CountryEO country) {
+        if (countryList == null) {
+            return false;
+        }
+        if (countryList.contains(country)) {
+            this.countryList.remove(country);
+            country.setRegion(null);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public long getVersion() {
@@ -205,5 +223,4 @@ public class RegionEO extends DomainObject implements Serializable {
                 + ", regionCode=" + this.getRegionCode()
                 + '}';
     }
-
 }
