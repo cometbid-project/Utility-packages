@@ -252,15 +252,29 @@ public class CountryEO extends DomainObject implements Serializable {
         this.callingCodes = callingCodes;
     }
 
-    public void addCallingCode(String callingCode) {
+    public boolean addCallingCode(String callingCode) {
         if (this.callingCodes == null) {
             this.callingCodes = new HashSet<>();
         }
-        this.callingCodes.add(callingCode);
+        if (!callingCodes.contains(callingCode)) {
+            this.callingCodes.add(callingCode);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeCallingCode(String callingCode) {
-        this.callingCodes.remove(callingCode);
+    public boolean removeCallingCode(String callingCode) {
+        if (callingCodes == null) {
+            return false;
+        }
+
+        if (callingCodes.contains(callingCode)) {
+            this.callingCodes.remove(callingCode);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Set<String> getDiallingCodes() {
@@ -271,15 +285,29 @@ public class CountryEO extends DomainObject implements Serializable {
         this.diallingCodes = diallingCodes;
     }
 
-    public void addDiallingCode(String diallingCode) {
+    public boolean addDiallingCode(String diallingCode) {
         if (this.diallingCodes == null) {
             this.diallingCodes = new HashSet<>();
         }
-        this.diallingCodes.add(diallingCode);
+        if (!diallingCodes.contains(diallingCode)) {
+            this.diallingCodes.add(diallingCode);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeDiallingCode(String diallingCode) {
-        this.diallingCodes.remove(diallingCode);
+    public boolean removeDiallingCode(String diallingCode) {
+        if (diallingCodes == null) {
+            return false;
+        }
+
+        if (diallingCodes.contains(diallingCode)) {
+            this.diallingCodes.remove(diallingCode);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Set<Integer> getPhoneFormats() {
@@ -290,15 +318,29 @@ public class CountryEO extends DomainObject implements Serializable {
         this.phoneFormats = phoneFormats;
     }
 
-    public void addPhoneFormat(Integer phoneFormat) {
+    public boolean addPhoneFormat(Integer phoneFormat) {
         if (this.phoneFormats == null) {
             this.phoneFormats = new HashSet<>();
         }
-        this.phoneFormats.add(phoneFormat);
+        if (!phoneFormats.contains(phoneFormat)) {
+            this.phoneFormats.add(phoneFormat);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removePhoneFormat(Integer phoneFormat) {
-        this.phoneFormats.remove(phoneFormat);
+    public boolean removePhoneFormat(Integer phoneFormat) {
+        if (phoneFormats == null) {
+            return false;
+        }
+
+        if (phoneFormats.contains(phoneFormat)) {
+            this.phoneFormats.remove(phoneFormat);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<StateProvEO> getStateProvList() {
@@ -309,15 +351,33 @@ public class CountryEO extends DomainObject implements Serializable {
         this.stateProvList = stateProvList;
     }
 
-    public void addStateProvToList(StateProvEO stateProv) {
+    public boolean addStateProvToList(StateProvEO stateProv) {
         if (this.stateProvList == null) {
             this.stateProvList = new ArrayList<>();
         }
-        this.stateProvList.add(stateProv);
+        if (!stateProvList.contains(stateProv)) {
+            CountryEO oldCountry = stateProv.getCountryOb();
+            if (oldCountry != null) {
+                removeStateProvFromList(stateProv);
+            }
+            this.stateProvList.add(stateProv);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeStateProvFromList(StateProvEO stateProv) {
-        this.stateProvList.remove(stateProv);
+    public boolean removeStateProvFromList(StateProvEO stateProv) {
+        if (stateProvList == null) {
+            return false;
+        }
+        if (stateProvList.contains(stateProv)) {
+            this.stateProvList.remove(stateProv);
+            stateProv.setCountryOb(null);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getDescription() {

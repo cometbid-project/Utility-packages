@@ -9,7 +9,7 @@ package com.cometbid.ut.enums;
  *
  * @author Gbenga
  */
-public class GlobalConstants {
+public class ConfigConstants {
 
     public static boolean DEBUG = true;
 

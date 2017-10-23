@@ -39,10 +39,10 @@ import org.hibernate.annotations.ColumnDefault;
  * @author Gbenga
  */
 @Entity
-@Table(name = "STATE_PROV_TAB" /*,
-       uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"STATE_PROVINCE", "COUNTRY_ID"})
-        }*/
+@Table(name = "STATE_PROV_TAB",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"STATE_ID", "COUNTRY_ID"})
+        }
 )
 @XmlRootElement(name = "State/Province")
 @NamedQueries({
@@ -200,26 +200,55 @@ public class StateProvEO extends DomainObject implements Serializable {
         this.lgas = councils;
     }
 
-    public void addStateCity(StateCitiesEO city) {
+    public boolean addStateCity(StateCitiesEO city) {
         if (this.cities == null) {
             this.cities = new HashSet<>();
         }
-        this.cities.add(city);
+
+        if (!cities.contains(city)) {
+            this.cities.add(city);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeStateCity(StateCitiesEO city) {
-        this.cities.remove(city);
+    public boolean removeStateCity(StateCitiesEO city) {
+        if (cities == null) {
+            return false;
+        }
+
+        if (cities.contains(city)) {
+            this.cities.remove(city);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void addStateCouncil(StateLgaEO council) {
+    public boolean addStateCouncil(StateLgaEO council) {
         if (this.lgas == null) {
             this.lgas = new HashSet<>();
         }
-        this.lgas.add(council);
+        if (!lgas.contains(council)) {
+            this.lgas.add(council);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void removeStateCouncil(StateLgaEO council) {
-        this.lgas.remove(council);
+    public boolean removeStateCouncil(StateLgaEO council) {
+        if (lgas == null) {
+            return false;
+        }
+
+        if (lgas.contains(council)) {
+            this.lgas.remove(council);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getDescription() {
@@ -273,5 +302,4 @@ public class StateProvEO extends DomainObject implements Serializable {
                 + ", country=" + this.getCountryOb()
                 + '}';
     }
-
 }

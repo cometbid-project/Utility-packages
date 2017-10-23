@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cometbid.commerce.ut.cdi;
+package com.cometbid.commerce.ut.cdi; 
 
 import com.cometbid.commerce.ut.qualifiers.JavaUtilLogger;
 import java.util.logging.Level;
