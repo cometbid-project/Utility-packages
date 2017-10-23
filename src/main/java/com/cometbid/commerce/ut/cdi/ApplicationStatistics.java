@@ -95,4 +95,5 @@ public class ApplicationStatistics {
     public Map<String, StatisticsData> gatherStatistics() {
         return statisticsCache;
     }
+
 }
